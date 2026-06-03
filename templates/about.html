@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - Chopsticks Leominster{% endblock %}
+
+{% block content %}
+<!-- Subpage Hero -->
+<section class="about-hero" id="about-hero-sec">
+    <div class="container">
+        <div style="max-width: 600px;">
+            <span class="hero-tag" style="color: var(--accent);">Our Story</span>
+            <h1 class="hero-title" style="font-size: 3rem;">Chopsticks Restaurant Leominster</h1>
+        </div>
+    </div>
+</section>
+
+<!-- Story Layout -->
+<section style="padding: 60px 0 80px;" id="about-story-sec">
+    <div class="container">
+        <div class="about-layout">
+            <div class="about-text">
+                <h2>A Culinary Tradition</h2>
+                <p>Welcome to Chopsticks Restaurant Online, Chinese Takeaway in Leominster. Located at 17 Etnam Street, we have been serving the Leominster community with high-quality, authentic Chinese food for years.</p>
+                <p>Our experienced chefs use fresh ingredients, traditional spices, and time-honored cooking techniques to prepare classic Chinese dishes. From our comforting chicken sweet corn soup and crispy aromatic duck to our savory curries and stir-fries, we make sure each dish is cooked to perfection.</p>
+                <p>We partner with Meals 4U to provide a seamless online ordering system, making it easy for you to browse our menu, place takeaway orders, or schedule a home delivery service.</p>
+            </div>
+            <div class="about-image-wrapper">
+                <img src="{{ url_for('static', filename='images/full6.jpg') }}" alt="Chinese Cuisine Cooking" class="about-image" onerror="this.onerror=null; this.src='https://www.chopsticksleominster.co.uk/images/assets/full6.jpg';">
+            </div>
+        </div>
+
+        <h2 class="section-title">Our Commitments</h2>
+        <p class="section-subtitle">What makes Chopsticks the preferred choice for Chinese food in Leominster.</p>
+
+        <div class="info-grid">
+            <div class="info-card" id="commit-card-1">
+                <div class="info-icon" style="color: var(--accent);">🌱</div>
+                <h3>Fresh Ingredients</h3>
+                <p>We source our vegetables, meats, and seafood daily to ensure every order is prepared with fresh ingredients.</p>
+            </div>
+            <div class="info-card" id="commit-card-2">
+                <div class="info-icon" style="color: var(--accent);">👨‍🍳</div>
+                <h3>Authentic Taste</h3>
+                <p>Our traditional wok-cooking methods seal in the rich, authentic flavors of classic Chinese recipes.</p>
+            </div>
+            <div class="info-card" id="commit-card-3">
+                <div class="info-icon" style="color: var(--accent);">🛡️</div>
+                <h3>Allergy Aware</h3>
+                <p>We take food allergies seriously. Please refer to our menu icons (Spicy, Vegetarian, Nuts) or contact us directly if you have specific dietary requirements.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

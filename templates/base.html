@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Chopsticks Leominster - Premium Chinese Takeaway{% endblock %}</title>
+    <meta name="description" content="Welcome to Chopsticks Restaurant Online, Chinese Takeaway in Leominster. Order delicious Chinese soups, appetisers, fried rice, chow mein, curries, and more.">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://www.chopsticksleominster.co.uk/includes/default/favicon.png" type="image/x-icon">
+</head>
+<body>
+    <!-- Premium Header and Navigation -->
+    <header class="main-header">
+        <div class="container">
+            <nav class="nav-container">
+                <a href="/" class="logo-link" id="logo-nav">
+                    <img src="{{ url_for('static', filename='logo.png') }}" alt="Chopsticks Leominster" class="logo-img" onerror="this.onerror=null; this.src='https://www.chopsticksleominster.co.uk/images/assets/logo.png';">
+                    <span class="logo-text">Chopsticks</span>
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}" id="nav-home">Home</a></li>
+                    <li><a href="/menu" class="nav-link {% if request.path == '/menu' %}active{% endif %}" id="nav-menu">Menu</a></li>
+                    <li><a href="/about" class="nav-link {% if request.path == '/about' %}active{% endif %}" id="nav-about">About Us</a></li>
+                    <li><a href="/contact" class="nav-link {% if request.path == '/contact' %}active{% endif %}" id="nav-contact">Contact</a></li>
+                    <li><a href="/menu" class="btn-order-nav" id="nav-order-now">Order Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 style="color: var(--accent);">Chopsticks Leominster</h4>
+                    <p>Experience the finest Chinese cuisine in Leominster. Fresh ingredients, traditional recipes, and authentic flavors.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/menu">Menu</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p>📍 {{ contact.address }}</p>
+                    <p>📞 <a href="tel:{{ contact.phone }}" style="color: var(--accent);">{{ contact.phone }}</a></p>
+                    <p>📧 <a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+                </div>
+                <div class="footer-col">
+                    <h4>Opening Hours</h4>
+                    {% for item in contact.opening_times %}
+                    <p><strong>{{ item.days }}:</strong> {{ item.hours }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Chopsticks Restaurant Leominster. Powered by Meals 4U. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

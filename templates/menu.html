@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block title %}Menu - Chopsticks Leominster Chinese Takeaway{% endblock %}
+
+{% block content %}
+<section style="padding: 40px 0;">
+    <div class="container">
+        <h2 class="section-title">Our Menu</h2>
+        <p class="section-subtitle">Browse our wide selection of authentic Chinese dishes and order online.</p>
+
+        <!-- Menu Layout -->
+        <div class="menu-layout">
+            <!-- Sidebar Categories -->
+            <aside class="menu-sidebar">
+                <h3 class="sidebar-title">Categories</h3>
+                <ul class="category-list">
+                    <li><button class="category-btn active" onclick="filterCategory('all')" id="cat-btn-all">All Items</button></li>
+                    {% for category in menu.keys() %}
+                    <li>
+                        <button class="category-btn" onclick="filterCategory('{{ category|replace(' ', '-')|replace('&', 'and')|replace('(', '')|replace(')', '')|lower }}')" id="cat-btn-{{ loop.index }}">
+                            {{ category }}
+                        </button>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </aside>
+
+            <!-- Main Menu Panel -->
+            <div class="menu-panel">
+                <!-- Live Search Bar -->
+                <div class="search-container">
+                    <input type="text" id="menu-search" class="search-input" placeholder="🔍 Search menu items (e.g., chicken, rice, soup)..." onkeyup="searchMenu()">
+                </div>
+
+                <!-- Menu Categories & Items -->
+                <div id="menu-container">
+                    {% for category, items in menu.items() %}
+                    {% set cat_id = category|replace(' ', '-')|replace('&', 'and')|replace('(', '')|replace(')', '')|lower %}
+                    <div class="menu-category-section" data-category="{{ cat_id }}">
+                        <h3 class="menu-category-title">{{ category }}</h3>
+                        <div class="menu-items-grid">
+                            {% for item in items %}
+                            <div class="menu-item-card" data-name="{{ item.name|lower }}" data-desc="{{ item.description|lower }}" data-num="{{ item.number }}">
+                                <div>
+                                    <div class="menu-item-header">
+                                        <span class="menu-item-number">{{ item.number }}</span>
+                                        <h4 class="menu-item-title">{{ item.name }}</h4>
+                                        <span class="menu-item-price">{{ item.price }}</span>
+                                    </div>
+                                    {% if item.description %}
+                                    <p class="menu-item-desc">{{ item.description }}</p>
+                                    {% else %}
+                                    <p class="menu-item-desc">Cooked fresh with selected fresh vegetables and standard traditional seasoning.</p>
+                                    {% endif %}
+                                </div>
+                                <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                    <div class="menu-item-tags">
+                                        <!-- Custom logic for tags based on item name and category -->
+                                        {% if 'curry' in item.name.lower() or 'spicy' in item.name.lower() or 'chilli' in item.name.lower() or 'szechuan' in item.name.lower() or 'green' in item.name.lower() or 'red' in item.name.lower() %}
+                                        <span class="tag tag-spicy">🌶️ Spicy</span>
+                                        {% endif %}
+                                        {% if 'vegetable' in item.name.lower() or 'beancurd' in item.name.lower() or 'seaweed' in item.name.lower() or 'plain' in item.name.lower() %}
+                                        <span class="tag tag-vegetarian">🌿 Veg</span>
+                                        {% endif %}
+                                        {% if 'nuts' in item.name.lower() or 'cashew' in item.name.lower() %}
+                                        <span class="tag tag-nuts">🥜 Nuts</span>
+                                        {% endif %}
+                                    </div>
+                                    <button class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem; border-radius: 4px; border: none; cursor: pointer;" onclick="addToCart('{{ item.number }}', '{{ item.name }}', '{{ item.price }}')">Add</button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Floating Shopping Cart Simulation -->
+<div id="cart-drawer" style="position: fixed; bottom: 30px; right: 30px; z-index: 1000; background: var(--bg-card); border: 1px solid var(--accent); border-radius: 12px; padding: 15px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; min-width: 250px; animation: fadeInUp 0.4s ease-out;">
+    <h4 style="color: var(--accent); margin-bottom: 10px; display: flex; justify-content: space-between;">
+        <span>🛒 Your Order</span>
+        <button onclick="toggleCart()" style="background:transparent; border:none; color:var(--text-secondary); cursor:pointer;">✕</button>
+    </h4>
+    <div id="cart-items" style="max-height: 150px; overflow-y: auto; margin-bottom: 15px; font-size: 0.85rem;"></div>
+    <div style="border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 15px;">
+        <span>Total:</span>
+        <span id="cart-total">£0.00</span>
+    </div>
+    <button class="btn-primary" style="width: 100%; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 0.9rem;" onclick="checkout()">Checkout</button>
+</div>
+
+<button id="cart-trigger" style="position: fixed; bottom: 30px; right: 30px; z-index: 999; background: var(--accent); color: #0b0f19; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: var(--transition);" onclick="toggleCart()">
+    🛒
+    <span id="cart-count" style="position: absolute; top: 0; right: 0; background: #ef4444; color: white; font-size: 0.75rem; font-weight: 700; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-card);">0</span>
+</button>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let cart = {};
+
+    function filterCategory(catId) {
+        // Update active class on buttons
+        const buttons = document.querySelectorAll('.category-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        
+        event.currentTarget.classList.add('active');
+
+        // Filter sections
+        const sections = document.querySelectorAll('.menu-category-section');
+        sections.forEach(section => {
+            if (catId === 'all' || section.getAttribute('data-category') === catId) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+        
+        // Reset search bar on category filter
+        document.getElementById('menu-search').value = '';
+        searchMenu();
+    }
+
+    function searchMenu() {
+        const query = document.getElementById('menu-search').value.toLowerCase().strip ? 
+                      document.getElementById('menu-search').value.toLowerCase().trim() : 
+                      document.getElementById('menu-search').value.toLowerCase();
+        
+        const sections = document.querySelectorAll('.menu-category-section');
+        
+        sections.forEach(section => {
+            let hasVisibleItems = false;
+            const items = section.querySelectorAll('.menu-item-card');
+            
+            items.forEach(item => {
+                const name = item.getAttribute('data-name');
+                const desc = item.getAttribute('data-desc');
+                const num = item.getAttribute('data-num');
+                
+                if (name.includes(query) || desc.includes(query) || num.includes(query)) {
+                    item.style.display = 'flex';
+                    hasVisibleItems = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Hide section if no items are visible
+            const activeBtn = document.querySelector('.category-btn.active');
+            const currentCat = activeBtn ? activeBtn.innerText.trim().toLowerCase() : '';
+            const sectionCat = section.querySelector('.menu-category-title').innerText.trim().toLowerCase();
+            
+            if (hasVisibleItems && (activeBtn.id === 'cat-btn-all' || currentCat === sectionCat)) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+    }
+
+    // Cart logic
+    function addToCart(num, name, priceStr) {
+        const price = parseFloat(priceStr.replace('£', ''));
+        if (cart[num]) {
+            cart[num].qty += 1;
+        } else {
+            cart[num] = { name: name, price: price, qty: 1 };
+        }
+        updateCartUI();
+        
+        // Bounce animation on cart button
+        const trigger = document.getElementById('cart-trigger');
+        trigger.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+            trigger.style.transform = 'scale(1)';
+        }, 200);
+    }
+
+    function updateCartUI() {
+        const countSpan = document.getElementById('cart-count');
+        const itemsDiv = document.getElementById('cart-items');
+        const totalSpan = document.getElementById('cart-total');
+        
+        itemsDiv.innerHTML = '';
+        let total = 0;
+        let count = 0;
+        
+        for (const num in cart) {
+            const item = cart[num];
+            total += item.price * item.qty;
+            count += item.qty;
+            
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.justify = 'space-between';
+            div.style.marginBottom = '8px';
+            div.innerHTML = `
+                <span>${item.qty}x ${item.name}</span>
+                <span>£${(item.price * item.qty).toFixed(2)}</span>
+            `;
+            itemsDiv.appendChild(div);
+        }
+        
+        countSpan.innerText = count;
+        totalSpan.innerText = `£${total.toFixed(2)}`;
+    }
+
+    function toggleCart() {
+        const drawer = document.getElementById('cart-drawer');
+        if (drawer.style.display === 'none' || drawer.style.display === '') {
+            drawer.style.display = 'block';
+        } else {
+            drawer.style.display = 'none';
+        }
+    }
+
+    function checkout() {
+        if (Object.keys(cart).length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+        alert("Checkout simulated successfully! Thank you for ordering from Chopsticks Leominster.");
+        cart = {};
+        updateCartUI();
+        toggleCart();
+    }
+</script>
+{% endblock %}
