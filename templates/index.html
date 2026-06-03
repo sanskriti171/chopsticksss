@@ -13,8 +13,8 @@
                 more.
                 Cooked fresh, served piping hot.</p>
             <div class="hero-buttons">
-                <a href="/menu" class="btn-primary" id="hero-btn-menu">View Our Menu</a>
-                <a href="/contact" class="btn-secondary" id="hero-btn-contact">Book Table / Contact</a>
+                <a href="/menu" class="btn-primary" id="hero-btn-menu">Explore Our Menu</a>
+                <a href="/contact" class="btn-secondary" id="hero-btn-contact">Contact Us</a>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
         <div class="info-grid">
             <div class="info-card" id="info-card-hours">
                 <div class="info-icon">🕒</div>
-                <h3>Opening Hours</h3>
+                <h3>Wok Hours</h3>
                 <ul>
                     {% for item in contact.opening_times %}
                     <li><strong>{{ item.days }}:</strong> {{ item.hours }}</li>
@@ -35,13 +35,13 @@
             </div>
             <div class="info-card" id="info-card-delivery">
                 <div class="info-icon">🛵</div>
-                <h3>Delivery Service</h3>
+                <h3>From Our Wok to Your Door</h3>
                 <p>Fast delivery to your home or office. Takeaway collections are also available at our counter.</p>
                 <p style="margin-top: 8px; font-weight: 600; color: var(--accent);">Delivery Charge Applies</p>
             </div>
             <div class="info-card" id="info-card-phone">
                 <div class="info-icon">📞</div>
-                <h3>Order by Phone</h3>
+                <h3>One Call Away</h3>
                 <p>Call us directly to place your order or query about allergies.</p>
                 <p style="margin-top: 8px; font-size: 1.25rem; font-weight: 700; color: var(--accent);">{{ contact.phone
                     }}</p>
@@ -53,8 +53,9 @@
 <!-- Featured Dishes -->
 <section class="featured-dishes" style="padding: 40px 0 80px;" id="featured-sec">
     <div class="container">
-        <h2 class="section-title">Chef's Recommendations</h2>
-        <p class="section-subtitle">A curated selection of our customer favorites and signature dishes.</p>
+        <h2 class="section-title">Fan Favourites</h2>
+        <p class="section-subtitle">Tried, Tasted, and Loved. <br> Discover the dishes that have made chopsticks a local
+            favourite.</p>
 
         <div class="featured-grid">
             {% for item in featured %}
