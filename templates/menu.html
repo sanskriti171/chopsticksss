@@ -14,10 +14,10 @@
             <aside class="menu-sidebar">
                 <h3 class="sidebar-title">Categories</h3>
                 <ul class="category-list">
-                    <li><button class="category-btn active" onclick="filterCategory('all')" id="cat-btn-all">All Items</button></li>
+                    <li><button class="category-btn active" onclick="filterCategory('all', this)" id="cat-btn-all">All Items</button></li>
                     {% for category in menu.keys() %}
                     <li>
-                        <button class="category-btn" onclick="filterCategory('{{ category|replace(' ', '-')|replace('&', 'and')|replace('(', '')|replace(')', '')|lower }}')" id="cat-btn-{{ loop.index }}">
+                        <button class="category-btn" data-category="{{ category|replace(' ', '-')|replace('&', 'and')|replace('(', '')|replace(')', '')|lower }}" onclick="filterCategory(this.dataset.category, this)" id="cat-btn-{{ loop.index }}">
                             {{ category }}
                         </button>
                     </li>
@@ -103,12 +103,14 @@
 <script>
     let cart = {};
 
-    function filterCategory(catId) {
+    function filterCategory(catId, btn) {
         // Update active class on buttons
         const buttons = document.querySelectorAll('.category-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
+        buttons.forEach(b => b.classList.remove('active'));
         
-        event.currentTarget.classList.add('active');
+        if (btn) {
+            btn.classList.add('active');
+        }
 
         // Filter sections
         const sections = document.querySelectorAll('.menu-category-section');
