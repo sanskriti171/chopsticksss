@@ -75,7 +75,7 @@ img {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    padding: 4px 0; /* Balanced vertical padding for larger logo size */
 }
 
 .logo-link {
@@ -85,7 +85,7 @@ img {
 }
 
 .logo-img {
-    height: 48px;
+    height: 80px; /* Increased to 80px */
     object-fit: contain;
 }
 
@@ -757,4 +757,87 @@ textarea.form-control {
         display: none;
         /* simple responsive fallback */
     }
+}
+
+/* Lucide Icon Styling */
+.lucide {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* Specific icon adjustments */
+.info-icon .lucide {
+    width: 40px;
+    height: 40px;
+    color: var(--accent);
+}
+
+.contact-item-icon .lucide {
+    width: 32px;
+    height: 32px;
+    color: var(--accent);
+}
+
+.tag-icon {
+    width: 14px !important;
+    height: 14px !important;
+    margin-right: 4px;
+    vertical-align: -2px;
+    stroke-width: 2.5px;
+}
+
+.footer-icon {
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 8px;
+    color: var(--accent);
+    vertical-align: -3px;
+}
+
+.cart-title-icon {
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 8px;
+    vertical-align: -3px;
+}
+
+.cart-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.cart-close-btn:hover {
+    color: var(--accent);
+}
+
+.cart-close-btn .lucide {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+/* Search bar styling with icon */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    width: 20px !important;
+    height: 20px !important;
+    pointer-events: none;
+}
+
+.search-wrapper .search-input {
+    padding-left: 50px !important;
 }
